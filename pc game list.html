@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC Game List</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #f9f9f9;
+    }
+    .total {
+        font-weight: bold;
+        font-size: 18px;
+    }
+</style>
+</head>
+<body>
+<h1>PC Game List</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Select</th>
+            <th>Game Title</th>
+            <th>Size (GB)</th>
+        </tr>
+    </thead>
+    <tbody id="gameTable">
+        <!-- Games inserted here by JS -->
+    </tbody>
+</table>
+<div class="total">Total Size: <span id="totalSize">0 GB</span></div>
+
+<script>
+const games = [
+{title:"A Quiet Place: The Road Ahead (2024)", size:38},
+{title:"A Way Out", size:22},
+{title:"Age of Empire IV Anniversary Edition Complete DLC", size:105},
+{title:"Alan Wake Remastered", size:38},
+{title:"Angry Birds Collection", size:1.3},
+{title:"Armored Core VI Fires of Rubicon", size:61.3},
+{title:"Assassin's Creed 1", size:6.7},
+{title:"Assassin's Creed 2", size:7},
+{title:"Assassin's Creed 3", size:18},
+{title:"Assassin's Creed Black Flag Complete DLC", size:19},
+{title:"Assassin's Creed Brotherhood", size:9},
+{title:"Assassin's Creed Mirage", size:42},
+{title:"Assassin's Creed Odyssey", size:99},
+{title:"Assassin's Creed Origins The Curse of the Pharaohs (not working on windows 11 24h2)", size:74},
+{title:"Assassin's Creed Revelations", size:6.8},
+{title:"Assassin's Creed Rogue", size:12},
+{title:"Assassin's Creed Syndicate", size:63},
+{title:"Assassin's Creed Unity", size:45},
+{title:"Assassin's Creed Valhalla Ultimate Pack - (not working on windows 11 24h2)", size:158},
+{title:"Assetto Corsa Competizione", size:19.1},
+{title:"Attack on Titan", size:17.2},
+{title:"Attack on Titan 2", size:40},
+{title:"Baldur’s Gate 3", size:143.1},
+{title:"Batman Arkham City GAME OF THE YEAR EDITION", size:17},
+{title:"Batman Arkham Origins", size:25.5},
+{title:"Battlefield 1", size:31},
+{title:"Battlefield 4 PREMIUM EDITION", size:73},
+{title:"Battlefield Hardline", size:38},
+{title:"Battlefield V", size:50.1},
+{title:"BeamNG.drive", size:51},
+{title:"Bleach Rebirth of Souls (2025) (16gb ram/memory needed)", size:73},
+{title:"Bully Scholarship Edition", size:5},
+{title:"Bus Simulator 21 Next Stop", size:23},
+{title:"Call of Duty 4 Modern Warfare", size:6.46},
+{title:"Call of duty Advanced Warfare", size:36.6},
+{title:"Call of Duty Black Ops 1 Complete DLC", size:11.5},
+{title:"Call of Duty Black Ops 2", size:23},
+{title:"Call of Duty Black Ops 3", size:69},
+{title:"Call of Duty Black Ops 6", size:55},
+{title:"Call of Duty Black Ops Cold War (not working on windows 11 24h2)", size:90},
+{title:"Call of Duty Ghost", size:30},
+{title:"Call of Duty Infinite Warfare", size:71},
+{title:"Call of Duty Modern Warfare (2019)", size:99},
+{title:"Call of Duty Modern Warfare 2", size:14.2},
+{title:"Call of Duty Modern Warfare 2 (2022)", size:35},
+{title:"Call of Duty Modern Warfare 3", size:17.8},
+{title:"Call of Duty Modern Warfare III (2023)", size:61},
+{title:"Call of Duty Vanguard", size:85},
+{title:"Call of Duty World at War", size:6.92},
+{title:"Call of Duty WW2", size:64},
+{title:"Clair Obscur: Expedition 33", size:41},
+{title:"Company of Heroes 3", size:28},
+{title:"Counter Strike Source 2004 CLASSIC", size:1.72},
+{title:"Crash Bandicoot 4", size:23.3},
+{title:"Crash Bandicoot N. Sane Trilogy", size:30},
+{title:"Cyberpunk 2077 Phantom Liberty", size:85},
+{title:"Dark Souls 3", size:25.1},
+{title:"Days Gone", size:44.6},
+{title:"Deadpool", size:6.4},
+{title:"Death Stranding Director's Cut", size:75},
+{title:"Delta Force Black Hawk Down", size:1.23},
+{title:"Detroit Become Human", size:60},
+{title:"Devil May Cry 4 Special Edition", size:26},
+{title:"Devil May Cry 5 Deluxe Edition", size:40.1},
+{title:"Diablo 2 Resurrected", size:29},
+{title:"Dishonored GOTY Edition", size:12.2},
+{title:"Doom Eternal", size:88.8},
+{title:"Dragon Ball Fighter Z COMPLETE DLC", size:7},
+{title:"Dragon Ball Sparking Zero (Steam Required)", size:28},
+{title:"Dragon Ball Z: Kakarot", size:51.3},
+{title:"Dragon Dogma 2 (Videocard atleast 6gb and up)", size:64},
+{title:"Dragonball Xenoverse 2 Deluxe Edition", size:29},
+{title:"Dragonball Xenoverse Ultimate Edition", size:10.6},
+{title:"Dying Light 2 Stay Human: Reloaded Complete DLC", size:72},
+{title:"Dying Light The w/ The Following Complete DLC", size:46},
+{title:"Dying Light: The Beast (2025)", size:61},
+{title:"Dynasty Warriors Origins (2025)", size:52},
+{title:"Elden Ring NightReign", size:20.5},
+{title:"Elden Ring Shadow of the Erdtree Edition", size:70},
+{title:"Euro Truck Simulator 2", size:29},
+{title:"Evil West", size:48.6},
+{title:"F1 22", size:44},
+{title:"Fallout 4 Game of the Year Edition Complete DLC", size:43},
+{title:"Far Cry 6", size:136},
+{title:"FIFA 23", size:48},
+{title:"Fight Night Champion (PS3 Emulator) - 6 Cores CPU Needed", size:8},
+{title:"Final Fantasy VII Rebirth (2025)", size:155},
+{title:"Final fantasy VII remake Intergrade", size:94.4},
+{title:"Final Fantasy XV - (not working on windows 11 24h2)", size:98.6},
+{title:"Final Fantasy XVI (2025) (16gb ram/memory needed)", size:155},
+{title:"Forza Horizon 5 Premium Edition", size:155},
+{title:"Ghost of Tsushima Director's Cut (Complete DLC)", size:54},
+{title:"Ghost Recon Wildlands", size:65},
+{title:"God of War 3 (PS3 Emulation) 6 Cores CPU Needed", size:25},
+{title:"God of War 4 / God of War (2022)", size:61.8},
+{title:"God of War Ragnarok - DIGITAL DELUXE EDITION", size:160},
+{title:"Granny 1", size:1.49},
+{title:"Granny 3", size:0.669},
+{title:"Granny Chapter 2", size:1.06},
+{title:"Grid 2 HD Edition", size:10.9},
+{title:"Grounded 2 + Coop (need steam login)", size:32},
+{title:"GTA IV Complete Edition 2 in 1", size:30.5},
+{title:"GTA TRILOGY DEFINITIVE EDITION", size:32.5},
+{title:"GTA V Enhanced Edition (2025)", size:93},
+{title:"Guitar Hero 3 Legends of Rock", size:4.4},
+{title:"Gundam Breaker 4 w/ DLC", size:10.2},
+{title:"Hades", size:11.2},
+{title:"HALO: The Master Chief Collection", size:128},
+{title:"Hell is Us (2025)", size:25},
+{title:"Hellblade: Senua’s Sacrifice Enhanced Edition", size:19.1},
+{title:"Hitman 3 World of Assassination", size:75.2},
+{title:"Hogwarts Legacy - (not working on windows 11 24h2)", size:73.2},
+{title:"Hollow Knight Silksong (2025)", size:8},
+{title:"Horizon Forbidden West Complete Edition 2024", size:124.1},
+{title:"Hunter X Hunter NEN Impact", size:3},
+{title:"Injustice 2 Legendary Edition", size:45},
+{title:"Injustice Gods Among Us Ultimate Edition", size:20.5},
+{title:"inZOI", size:23},
+{title:"It Takes Two", size:45},
+{title:"Jujutsu Kaisen Cursed Clash (need steam)", size:12.8},
+{title:"Jump Force - Deluxe Edition", size:22.4},
+{title:"Karma The Dark World (2025)", size:27},
+{title:"Kena - Bridge of Spirits Digital Deluxe Edition", size:24},
+{title:"Kingdom Hearts 3 + Remind", size:66},
+{title:"Left4dead 2", size:14.5},
+{title:"Lego Batman", size:4.15},
+{title:"Lego Batman 2 DC HEROES", size:3.77},
+{title:"Lego Batman 3 Beyond Gotham", size:8},
+{title:"Little Nightmares", size:10},
+{title:"Little Nightmares 2 Enhanced Edition", size:22.4},
+{title:"Little Nightmares III (2025) (Need Steam Account)", size:13},
+{title:"Lords of the Fallen", size:34.2},
+{title:"Lost Soul Aside (2025)", size:65},
+{title:"Luigi's Mansion 3 (Switch Emulation)", size:9},
+{title:"Mad Max", size:33},
+{title:"Mafia 3 Definitive Edition", size:38},
+{title:"Mafia Definitive Edition", size:28},
+{title:"MAFIA II Definitive Edition", size:45},
+{title:"Marvel's Avengers Definitive Edition", size:147.1},
+{title:"Max Payne 3", size:33},
+{title:"Medal of Honor WarFighter", size:16},
+{title:"Metal Gear Solid Delta Snake Eater (2025)", size:95},
+{title:"Metal Slug XX", size:0.55},
+{title:"Minecraft Legends", size:10.6},
+{title:"Monster Energy Super Cross Official Game 6", size:22.2},
+{title:"Monster Hunter Rise SUNBREAK (not working on windows 11 24h2)", size:33.3},
+{title:"Monster Hunter World : ICEBORNE (Need Steam Online)", size:52},
+{title:"Mortal Kombat 11 Ultimate", size:146},
+{title:"Mortal Kombat Komplete Edition", size:10},
+{title:"MOTOGP 25", size:26},
+{title:"Naruto Shippuden Ultimate Ninja Storm 4", size:39},
+{title:"Naruto X Boruto", size:29.7},
+{title:"Need For Speed Most Wanted Criterion Limited Edition", size:6.3},
+{title:"Need For Speed Payback Deluxe Edition", size:27.6},
+{title:"Need For Speed Rivals", size:10},
+{title:"Ninja Gaiden 2 Black (2025)", size:82},
+{title:"Nioh 2 Complete Edition", size:77},
+{title:"Onepiece Pirate Warriors 4 Ultimate Edition", size:26.1},
+{title:"Only Up!", size:7.5},
+{title:"Ori and the will of the Wisps", size:15.1},
+{title:"Outlast 1", size:6.04},
+{title:"Outlast 2", size:25.3},
+{title:"Overcooked 2", size:8.01},
+{title:"Overcooked! All You Can Eat", size:8.27},
+{title:"Palworld (Pokemon PC Version 2024)", size:27},
+{title:"Plants vs Zombies", size:0.446},
+{title:"Pokemon Legends Z-A (Switch Emulation)", size:5},
+{title:"Pokemon Scarlet & Violet (Ryujinx Edition Switch)", size:23.2},
+{title:"Pokemon Shining Pearl & Brilliant Diamond (switch emulation)", size:11},
+{title:"Pokemon Sword & Shield (switch emulation)", size:25},
+{title:"Pokemons Legends Arceus", size:6.45},
+{title:"Police Simulator Complete DLC", size:13},
+{title:"Prototype 2 RADNET EDITION", size:9.89},
+{title:"Ratchet and Clank: Rift Apart", size:48.5},
+{title:"Ready or Not (Need Steam)", size:57},
+{title:"Red Alert Command and Conquer Remastered Collection", size:25},
+{title:"Red Dead Redemption 1", size:10},
+{title:"Red Dead Redemption 2", size:119},
+{title:"Resident Evil 2 Remake", size:24},
+{title:"Resident Evil 3 Remake", size:24},
+{title:"Resident Evil 4 Remake Complete DLC", size:59.2},
+{title:"Resident Evil 5 Gold Edition", size:8.52},
+{title:"Resident Evil 6", size:13},
+{title:"Resident Evil 7 Biohazard", size:65},
+{title:"Resident Evil Village", size:38},
+{title:"Sea of Stars", size:3.72},
+{title:"Sekiro Die Twice Game of the year edition", size:15.1},
+{title:"Senua's Saga - Hellblade II", size:50},
+{title:"Shadow of the Tomb Raider", size:59},
+{title:"SIFU", size:29.1},
+{title:"Silent Hill 2 Remake (2024)", size:35},
+{title:"Silent Hill F (2025)", size:49},
+{title:"Sleeping Dogs Definitive Edition", size:16},
+{title:"Sniper Elite 4 Deluxe Edition Complete DLC", size:66},
+{title:"Snow Runner", size:52.5},
+{title:"Sonic Unleashed (2025)", size:10},
+{title:"Sons of the Forest", size:15},
+{title:"Spider-Man 2 Digital Deluxe Edition (2025)", size:120},
+{title:"Spider-Man Miles Morales", size:57},
+{title:"Spider-Man Remastered", size:79},
+{title:"Star Wars Battle Front Ultimate Edition", size:53},
+{title:"Star Wars Jedi Survivors", size:130},
+{title:"Stray", size:6.27},
+{title:"Street Fighter V Champion Edition", size:55},
+{title:"Super Mario 3D World + Bowser's Fury (SWITCH Emulation)", size:3.6},
+{title:"Super Mario Bros. Wonder (Switch Emulation)", size:4.2},
+{title:"Super Smash Bros. Ultimate (Switch Emulation)", size:17.5},
+{title:"Swords Art Online Fractured Daydream", size:42.5},
+{title:"Taxi Life A City Driving Simulator (2024)", size:4.23},
+{title:"Tekken 7 Ultimate Edition Complete DLC", size:81.5},
+{title:"Tekken 8 Ultimate Edition", size:120},
+{title:"Tekken Tag Tournament 2 (PS3 Emulation) 6 CPU Cores CPU Needed", size:27},
+{title:"Terminator Salvation The Videogame", size:7},
+{title:"The Callisto Protocol Deluxe Edition", size:76.1},
+{title:"The Elder Scrolls 4 Oblivion Remastered", size:126},
+{title:"The Evil Within 2", size:34.5},
+{title:"The House of the Dead 2 Remake", size:4},
+{title:"The King of Fighters XV", size:46},
+{title:"The Last of Us 2 Remastered (2025)", size:89},
+{title:"The last of Us Part 1 - (NEED 16gb ram)", size:78.7},
+{title:"The Legend of Zelda Breath of the Wild (Wii U Emulation)", size:17},
+{title:"The Legend of Zelda Tears of the Kingdom (Switch Emulation)", size:17},
+{title:"The Sims 4 Ultimate Edition Complete DLC", size:62},
+{title:"The Witcher 3 Wildhunt GAME OF THE YEAR EDITION", size:62},
+{title:"Tokyo Xtreme Racer (2025)", size:7},
+{title:"Transformer Fall of Cybertron", size:8.11},
+{title:"Transformer War For Cybertron", size:8.29},
+{title:"Ultimate Marvel vs Capcom 3", size:3.58},
+{title:"Uncharted Legacy of Thieves Collection 2 in 1", size:99.5},
+{title:"Until Dawn", size:60},
+{title:"War Hammer 40,000 Space Marine 2", size:65},
+{title:"Warcraft 3 Frozen Throne Dota 1", size:2.74},
+{title:"Watch Dogs 2", size:47.4},
+{title:"World War Z Aftermath", size:56.5},
+{title:"Wuchang: Fallen Feathers", size:47},
+{title:"WWE 2K25 The Bloodline Edition Complete DLC", size:92}
+];
+
+const tableBody = document.getElementById("gameTable");
+
+games.forEach((game, index) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td><input type="checkbox" onchange="updateTotal()"></td>
+        <td>${game.title}</td>
+        <td>${game.size} GB</td>
+    `;
+    tableBody.appendChild(row);
+});
+
+function updateTotal() {
+    let total = 0;
+    const checkboxes = tableBody.querySelectorAll("input[type='checkbox']");
+    checkboxes.forEach((cb, i) => {
+        if(cb.checked) total += games[i].size;
+    });
+    
+    let display;
+    if(total >= 1024){
+        display = (total/1024).toFixed(2) + " TB (" + total.toFixed(2) + " GB)";
+    } else {
+        display = total.toFixed(2) + " GB";
+    }
+    document.getElementById("totalSize").textContent = display;
+}
+</script>
+</body>
+</html>
